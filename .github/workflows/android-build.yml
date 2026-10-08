@@ -21,9 +21,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Accept Android SDK licenses
-        run: yes | $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
-
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
@@ -31,6 +28,9 @@ jobs:
           build-tools: "34.0.0"
           ndk: '25.1.8937393'
           cmake: '3.18.2'
+
+      - name: Accept Android SDK licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
