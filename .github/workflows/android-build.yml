@@ -22,19 +22,12 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        run: |
-          echo "ANDROID_HOME=$HOME/Library/Android/sdk" >> $GITHUB_ENV
-          mkdir -p $ANDROID_HOME/cmdline-tools/latest
-          cd $ANDROID_HOME/cmdline-tools/latest
-          curl -L https://dl.google.com/android/repository/commandlinetools-latest.zip > cmdline-tools.zip
-          unzip cmdline-tools.zip
-          rm cmdline-tools.zip
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+        uses: android-actions/setup-android@v3
 
       - name: Install Android SDK platform, build-tools, and platform-tools
         run: yes | $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
-      - name: Accept Android SDK licenses (additional)
+      - name: Accept Android SDK licenses
         run: yes | $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
 
       - name: Cache Gradle dependencies
