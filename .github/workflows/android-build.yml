@@ -21,17 +21,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          architecture: x64
-
-      - name: Install Android SDK platform, build-tools, and platform-tools
-        run: yes | $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
-
-      - name: Accept Android SDK licenses
-        run: yes | $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
-
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -48,7 +37,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew assembleDebug --no-daemon
         env:
-          ANDROID_SDK_ROOT: ${{ runner.AndroidSdkDirectory }}
+          ANDROID_SDK_ROOT: /home/runner/android-sdk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
