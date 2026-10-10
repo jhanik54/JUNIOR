@@ -21,6 +21,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          architecture: x64
+          api-level: 36
+          build-tools: "36.0.0"
+
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -37,7 +44,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew assembleDebug --no-daemon
         env:
-          ANDROID_SDK_ROOT: /home/runner/android-sdk
+          ANDROID_SDK_ROOT: ${{ runner.AndroidSdkDirectory }}
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
