@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to MobileClaw will be documented in this file.
+All notable changes to JUNIOR will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [1.1.0] - 2026-04-07

@@ -8,30 +8,30 @@ plugins {
 }
 
 android {
-    namespace = "ai.affiora.mobileclaw"
+    namespace = "ai.affiora.junior"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "ai.affiora.mobileclaw"
+        applicationId = "ai.affiora.junior"
         minSdk = 29
         targetSdk = 34
         versionCode = 13
         versionName = "1.2.12"
 
-        testInstrumentationRunner = "ai.affiora.mobileclaw.HiltTestRunner"
+        testInstrumentationRunner = "ai.affiora.junior.HiltTestRunner"
     }
 
     signingConfigs {
         create("release") {
-            // Local-only keystore at ~/.android/mobileclaw-release.keystore.
+            // Local-only keystore at ~/.android/junior-release.keystore.
             // Password read from env (MOBILECLAW_KEYSTORE_PASSWORD) or ~/.gradle/gradle.properties
-            // (mobileclaw.keystore.password). Neither the keystore nor the password is in git.
-            val keystoreFile = file("${System.getProperty("user.home")}/.android/mobileclaw-release.keystore")
+            // (junior.keystore.password). Neither the keystore nor the password is in git.
+            val keystoreFile = file("${System.getProperty("user.home")}/.android/junior-release.keystore")
             if (keystoreFile.exists()) {
                 storeFile = keystoreFile
-                keyAlias = "mobileclaw"
+                keyAlias = "junior"
                 val pw = System.getenv("MOBILECLAW_KEYSTORE_PASSWORD")
-                    ?: (project.findProperty("mobileclaw.keystore.password") as String?)
+                    ?: (project.findProperty("junior.keystore.password") as String?)
                     ?: ""
                 storePassword = pw
                 keyPassword = pw

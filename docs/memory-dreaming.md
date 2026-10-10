@@ -1,10 +1,10 @@
 # Memory & Dreaming System (Design)
 
-Research + implementation plan for porting OpenClaw's memory/dreaming architecture to MobileClaw.
+Research + implementation plan for porting OpenClaw's memory/dreaming architecture to JUNIOR.
 
 ## Current state
 
-MobileClaw has a basic `MemoryTool` (`app/src/main/java/ai/affiora/mobileclaw/tools/MemoryTool.kt`):
+JUNIOR has a basic `MemoryTool` (`app/src/main/java/ai/affiora/junior.tools.MemoryTool`):
 
 - Single JSON file `files/memory/memories.json`
 - Flat key-value entries with tags, `createdAt`, `updatedAt`
@@ -38,7 +38,7 @@ Three-file system:
 
 Stale/deleted snippets skipped during rehydration.
 
-## Port to MobileClaw
+## Port to JUNIOR
 
 ### Phase 1: File layout migration (backwards-compatible)
 
@@ -79,7 +79,7 @@ On each `AgentRuntime.run()`:
 2. Load today's `daily/YYYY-MM-DD.md` + yesterday's — append to system prompt
 3. Truncate to max ~2000 tokens so local models (Gemma 4 E2B) still have room
 
-Currently MobileClaw just registers `MemoryTool` as a tool — the model has to explicitly call `memory.search`. This forces the model to remember to ask. Auto-loading makes durable facts always available.
+Currently JUNIOR just registers `MemoryTool` as a tool — the model has to explicitly call `memory.search`. This forces the model to remember to ask. Auto-loading makes durable facts always available.
 
 ### Phase 4: Dreaming scheduler (WorkManager)
 
@@ -170,7 +170,7 @@ Start with 1 + 2 + 3 — those give 80% of the value with 20% of the work. Dream
 
 ## Open questions
 
-- **Embedding-based search?** OpenClaw uses vector similarity when embeddings are configured. MobileClaw could use:
+- **Embedding-based search?** OpenClaw uses vector similarity when embeddings are configured. JUNIOR could use:
   - Cloud embeddings (Google Gemini embedding — free tier)
   - On-device via sentence-transformers (adds ~200 MB)
   - Skip for now, keyword-only (what we have)

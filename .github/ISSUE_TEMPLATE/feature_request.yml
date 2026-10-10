@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest a feature for MobileClaw
+description: Suggest a feature for JUNIOR
 labels: [enhancement]
 body:
   - type: textarea

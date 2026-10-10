@@ -1,6 +1,6 @@
-# Contributing to MobileClaw
+# Contributing to JUNIOR
 
-Thank you for your interest in contributing to MobileClaw. This guide covers the development workflow and standards we follow.
+Thank you for your interest in contributing to JUNIOR. This guide covers the development workflow and standards we follow.
 
 ## Prerequisites
 
@@ -15,8 +15,8 @@ Thank you for your interest in contributing to MobileClaw. This guide covers the
 1. **Fork** the repository on GitHub.
 2. **Clone** your fork:
    ```bash
-   git clone https://github.com/<your-username>/MobileClaw.git
-   cd MobileClaw
+   git clone https://github.com/<your-username>/JUNIOR.git
+   cd JUNIOR
    ```
 3. **Open** the project in Android Studio and let Gradle sync.
 4. **Create a branch** for your change:
@@ -93,11 +93,11 @@ Before submitting your PR, verify:
 
 ## Adding a New Tool
 
-1. Create a new class implementing `AndroidTool` in `app/src/main/java/ai/affiora/mobileclaw/tools/`.
+1. Create a new class implementing `AndroidTool` in `app/src/main/java/ai/affiora/junior/tools/`.
 2. Define `name`, `description`, and `parameters` (JSON Schema).
 3. Implement the `execute()` method.
 4. Register the tool via Hilt in the tool module.
-5. Add unit tests in `app/src/test/java/ai/affiora/mobileclaw/tools/`.
+5. Add unit tests in `app/src/test/java/ai/affiora/junior/tools/`.
 6. Update the tool table in `README.md`.
 
 ## Adding a New Skill
