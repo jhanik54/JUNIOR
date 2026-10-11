@@ -41,7 +41,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon --info
         env:
           ANDROID_SDK_ROOT: ${{ runner.AndroidSdkDirectory }}
 
