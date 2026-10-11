@@ -7,6 +7,7 @@ import ai.affiora.junior.tools.ToolResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import kotlin.text.buildString
 import kotlinx.serialization.json.JsonPrimitive
 import java.util.UUID
 
