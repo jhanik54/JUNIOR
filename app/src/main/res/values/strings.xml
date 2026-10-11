@@ -8,9 +8,7 @@
 
     <!-- Bottom Nav -->
     <string name="nav_chat">Chat</string>
-    <string name="nav_devices">Devices</string>
-    <string name="nav_skills">Skills</string>
-    <string name="nav_schedule">Schedule</string>
+    <string name="nav_junior">JUNIOR</string>
     <string name="nav_settings">Settings</string>
 
     <!-- Settings Main List -->

@@ -23,5 +23,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MobileClaw"
+rootProject.name = "JUNIOR"
 include(":app")

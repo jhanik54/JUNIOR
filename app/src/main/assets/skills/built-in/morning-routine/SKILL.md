@@ -2,7 +2,7 @@
 name: morning-routine
 description: Daily morning briefing - missed calls, today's schedule, notification digest
 version: "1.0"
-author: MobileClaw Built-in
+author: JUNIOR Built-in
 tools_required: call_log, contacts, calendar, notifications
 ---
 # Morning Routine
