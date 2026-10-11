@@ -1,6 +1,7 @@
 package ai.affiora.junior.agent
 
 import kotlinx.coroutines.flow.Flow
+import kotlin.text.buildString
 
 /**
  * Core interface for memory storage systems.

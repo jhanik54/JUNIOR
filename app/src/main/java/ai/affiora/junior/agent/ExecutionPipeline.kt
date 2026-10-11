@@ -7,6 +7,8 @@ import ai.affiora.junior.tools.ToolResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import kotlinx.serialization.json.JsonPrimitive
+import java.util.UUID
 
 /**
  * Represents the execution pipeline stages for the JUNIOR agent.
@@ -138,7 +140,7 @@ class UnderstandStage : StageProcessor {
     
     override suspend fun process(context: PipelineContext): StageResult {
         // Analyze the goal, extract intent, identify required capabilities
-        val understoodContext = currentContext.copy(
+        val understoodContext = context.copy(
             metadata = context.metadata + ("understood" to "true")
         )
         return StageResult.Continue(understoodContext)
@@ -187,7 +189,7 @@ class ExecuteStage : StageProcessor {
         }
         
         // Execute the tool
-        val toolParams = step.parameters.mapValues { (_, v) -> kotlinx.serialization.json.JsonPrimitive(v) }
+        val toolParams = step.parameters.mapValues { (_, v) -> JsonPrimitive(v) }
         val result = tool.execute(toolParams)
         
         val stepResult = when (result) {
@@ -354,6 +356,3 @@ class FileCheckpointStore(
         // TODO: Implement deletion
     }
 }
-
-import kotlinx.serialization.json.JsonPrimitive
-import java.util.UUID
