@@ -41,11 +41,23 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew assembleDebug --no-daemon --info --stacktrace
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
         env:
           ANDROID_SDK_ROOT: ${{ runner.AndroidSdkDirectory }}
 
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            app/build/reports/
+            app/build/outputs/
+            **/build/reports/
+            **/build/outputs/
+
       - name: Upload APK artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: junior-debug-apk
