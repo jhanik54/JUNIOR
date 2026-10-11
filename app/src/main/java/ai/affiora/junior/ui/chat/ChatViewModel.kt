@@ -23,6 +23,7 @@ import ai.affiora.junior.data.model.ClaudeContent
 import ai.affiora.junior.data.model.ClaudeMessage
 import ai.affiora.junior.data.model.ContentBlock
 import ai.affiora.junior.data.model.ImageSource
+import ai.affiora.junior.ui.chat.TtsManager
 import ai.affiora.junior.data.model.MessageRole
 import ai.affiora.junior.data.model.ToolActivity
 import ai.affiora.junior.data.prefs.UserPreferences
