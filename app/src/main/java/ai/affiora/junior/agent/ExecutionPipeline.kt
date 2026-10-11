@@ -1,6 +1,8 @@
 package ai.affiora.junior.agent
 
 import ai.affiora.junior.data.model.AgentEvent
+import ai.affiora.junior.data.model.ClaudeMessage
+import ai.affiora.junior.tools.AndroidTool
 import ai.affiora.junior.tools.ToolResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
