@@ -13,6 +13,7 @@ import ai.affiora.junior.data.db.ConversationEntity
 import ai.affiora.junior.data.model.AgentEvent
 import ai.affiora.junior.data.model.MessageRole
 import ai.affiora.junior.data.prefs.UserPreferences
+import ai.affiora.junior.ui.chat.TtsManager
 import ai.affiora.junior.skills.SkillInstaller
 import ai.affiora.junior.tools.ToolResult
 import app.cash.turbine.test
