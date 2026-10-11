@@ -7,6 +7,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import javax.inject.Singleton
+import ai.affiora.junior.agent.MemoryContextBuilder
+import ai.affiora.junior.agent.MemoryStore
+import kotlin.text.buildString
 
 @Singleton
 class SystemPromptBuilder @Inject constructor(
