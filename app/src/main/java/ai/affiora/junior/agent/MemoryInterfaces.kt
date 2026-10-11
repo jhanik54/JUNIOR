@@ -7,7 +7,7 @@ import kotlin.text.buildString
  * Core interface for memory storage systems.
  * Implementations can be file-based, vector-based, or hybrid.
  */
-interface MemoryStore {
+interface MemoryStoreInterface {
     /** Append a durable fact that persists across sessions. */
     suspend fun appendDurableFact(fact: String, tags: List<String> = emptyList())
     
@@ -40,7 +40,7 @@ interface MemoryStore {
  * Extended interface for semantic/vector memory capabilities.
  * Future implementations can add vector search, RAG, etc.
  */
-interface SemanticMemoryStore : MemoryStore {
+interface SemanticMemoryStore : MemoryStoreInterface {
     /** Add a document to the semantic index. */
     suspend fun addDocument(id: String, content: String, metadata: Map<String, String> = emptyMap())
     
@@ -151,7 +151,7 @@ data class MemoryContext(
  * Builder for memory context.
  */
 class MemoryContextBuilder(
-    private val memoryStore: MemoryStore,
+    private val memoryStore: MemoryStoreInterface,
     private val semanticStore: SemanticMemoryStore? = null,
     private val config: MemoryConfig = MemoryConfig(),
 ) {

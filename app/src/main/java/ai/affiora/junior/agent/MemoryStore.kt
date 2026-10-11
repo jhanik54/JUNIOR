@@ -26,7 +26,7 @@ import javax.inject.Singleton
 @Singleton
 class MemoryStore @Inject constructor(
     @ApplicationContext private val context: Context,
-) {
+) : MemoryStoreInterface {
     companion object {
         private const val TAG = "MemoryStore"
         private const val MAX_MEMORY_CHARS = 8_000 // cap what's injected into prompt
@@ -55,7 +55,7 @@ class MemoryStore @Inject constructor(
 
     // ── Durable facts (MEMORY.md) ─────────────────────────────────────────
 
-    suspend fun appendDurableFact(fact: String, tags: List<String> = emptyList()): Unit =
+    override suspend fun appendDurableFact(fact: String, tags: List<String> = emptyList()): Unit =
         withContext(Dispatchers.IO) {
             mutex.withLock {
                 val file = memoryFile
@@ -66,14 +66,14 @@ class MemoryStore @Inject constructor(
             }
         }
 
-    suspend fun readDurableFacts(): String = withContext(Dispatchers.IO) {
+    override suspend fun readDurableFacts(maxChars: Int = 8000): String = withContext(Dispatchers.IO) {
         if (!memoryFile.exists()) return@withContext ""
         val text = memoryFile.readText()
-        if (text.length <= MAX_MEMORY_CHARS) text
-        else "...[truncated]...\n" + text.takeLast(MAX_MEMORY_CHARS)
+        if (text.length <= maxChars) text
+        else "...[truncated]...\n" + text.takeLast(maxChars)
     }
 
-    suspend fun deleteDurableFactContaining(substring: String): Boolean =
+    override suspend fun deleteDurableFactContaining(substring: String): Boolean =
         withContext(Dispatchers.IO) {
             mutex.withLock {
                 if (!memoryFile.exists()) return@withLock false
@@ -87,14 +87,14 @@ class MemoryStore @Inject constructor(
             }
         }
 
-    suspend fun listDurableFacts(): List<String> = withContext(Dispatchers.IO) {
+    override suspend fun listDurableFacts(): List<String> = withContext(Dispatchers.IO) {
         if (!memoryFile.exists()) return@withContext emptyList()
         memoryFile.readLines().filter { it.trim().startsWith("- ") }
     }
 
     // ── Daily notes ───────────────────────────────────────────────────────
 
-    suspend fun appendDailyNote(note: String): Unit = withContext(Dispatchers.IO) {
+    override suspend fun appendDailyNote(note: String): Unit = withContext(Dispatchers.IO) {
         mutex.withLock {
             val today = LocalDate.now().format(DATE_FORMAT)
             val file = File(dailyDir, "$today.md")
@@ -104,12 +104,11 @@ class MemoryStore @Inject constructor(
         }
     }
 
-    /** Read today's + yesterday's notes. Returns pair of (today, yesterday) content. */
-    suspend fun readRecentDailyNotes(): String = withContext(Dispatchers.IO) {
+    override suspend fun readRecentDailyNotes(days: Int = 2, maxChars: Int = 2000): String = withContext(Dispatchers.IO) {
         val today = LocalDate.now()
-        val yesterday = today.minusDays(1)
         val sb = StringBuilder()
-        for (date in listOf(today, yesterday)) {
+        for (i in 0 until days) {
+            val date = LocalDate.now().minusDays(i)
             val file = File(dailyDir, "${date.format(DATE_FORMAT)}.md")
             if (file.exists()) {
                 sb.append(file.readText())
@@ -117,20 +116,20 @@ class MemoryStore @Inject constructor(
             }
         }
         val text = sb.toString()
-        if (text.length <= MAX_DAILY_CHARS) text
-        else text.takeLast(MAX_DAILY_CHARS)
+        if (text.length <= maxChars) text
+        else text.takeLast(maxChars)
     }
 
     // ── Search across all memory files ────────────────────────────────────
 
-    suspend fun search(query: String): List<SearchMatch> = withContext(Dispatchers.IO) {
+    override suspend fun search(query: String): List<SearchMatch> = withContext(Dispatchers.IO) {
         val matches = mutableListOf<SearchMatch>()
         val q = query.lowercase()
 
         // Durable facts
         if (memoryFile.exists()) {
             memoryFile.readLines().forEach { line ->
-                if (line.lowercase().contains(q)) {
+                if (line.lowercase().contains(query.lowercase())) {
                     matches.add(SearchMatch("MEMORY.md", line.trim(), 1.0))
                 }
             }
@@ -139,7 +138,7 @@ class MemoryStore @Inject constructor(
         // Daily notes
         dailyDir.listFiles()?.sortedByDescending { it.name }?.take(7)?.forEach { file ->
             file.readLines().forEach { line ->
-                if (line.lowercase().contains(q)) {
+                if (line.lowercase().contains(query.lowercase())) {
                     matches.add(SearchMatch("daily/${file.name}", line.trim(), 0.7))
                 }
             }
@@ -148,7 +147,7 @@ class MemoryStore @Inject constructor(
         // Dreams diary
         if (dreamsFile.exists()) {
             dreamsFile.readLines().forEach { line ->
-                if (line.lowercase().contains(q)) {
+                if (line.lowercase().contains(query.lowercase())) {
                     matches.add(SearchMatch("DREAMS.md", line.trim(), 0.5))
                 }
             }
@@ -159,11 +158,11 @@ class MemoryStore @Inject constructor(
 
     // ── Dreams diary ──────────────────────────────────────────────────────
 
-    suspend fun readDreamsDiary(): String = withContext(Dispatchers.IO) {
+    override suspend fun readDreamsDiary(): String = withContext(Dispatchers.IO) {
         if (!dreamsFile.exists()) "No dreams recorded yet." else dreamsFile.readText()
     }
 
-    suspend fun appendDreamsEntry(section: String, content: String): Unit =
+    override suspend fun appendDreamsEntry(section: String, content: String): Unit =
         withContext(Dispatchers.IO) {
             mutex.withLock {
                 if (!dreamsFile.exists()) dreamsFile.writeText("# Dreams Diary\n\n")
